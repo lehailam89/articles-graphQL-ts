@@ -41,6 +41,16 @@ export const resolvers =  {
                 return category;
             }
         },
+        Article: {
+            category: async (article: any) => {
+                const categoryId = article.categoryId;
+                const category = await Category.findOne({
+                    _id: categoryId
+                })
+
+                return category;
+            }
+        },
         Mutation: {
             createArticle: async (_: any, args: any) => {
                 const { article } = args;
@@ -106,7 +116,7 @@ export const resolvers =  {
                 }, category);
 
                 const record = await Category.findOne({
-                    _id: id
+                    _id: id 
                 });
 
                 return record;
