@@ -22,5 +22,6 @@ input ArticleInput {
 
 type Mutation {
     createArticle(article: ArticleInput): Article,
+    deleteArticle(id: ID): String
 }
 `;
