@@ -22,5 +22,15 @@ export const resolvers =  {
                 
                 return article;
             }
+        },
+        Mutation: {
+            createArticle: async (_: any, args: any) => {
+                const { article } = args;
+
+                const record = new Article(article);
+                await record.save();
+
+                return record;
+            }
         }
     };
