@@ -1,4 +1,5 @@
 import Article from "./models/article.model";
+import Category from "./models/category.model";
 
 export const resolvers =  {
         Query: {
@@ -21,6 +22,23 @@ export const resolvers =  {
                 })
                 
                 return article;
+            },
+            getListCategory: async () => {
+                const articles = await Article.find({
+                    deleted: false
+                });
+
+                return articles;
+            },
+            getCategory: async (_: any, args: any) => {
+                const { id } = args;
+
+                const category = await Category.findById({
+                    _id: id,
+                    deleted: false
+                })
+                
+                return category;
             }
         },
         Mutation: {
@@ -56,6 +74,40 @@ export const resolvers =  {
                     _id: id
                 });
 
+
+                return record;
+            },
+            createCategory: async (_: any, args: any) => {
+                const { category } = args;
+
+                const record = new Category(category);
+                await record.save();
+
+                return record;
+            },
+            deleteCategory: async (_: any, args: any) => {
+                const { id } = args;
+
+                await Category.updateOne({
+                    _id: id
+                }, {
+                    deleted: true,
+                    deletedAt: new Date()
+                });
+
+                return "Đã xóa thành công danh mục!!"
+            },
+            updateCategory: async (_: any, args: any) => {
+                const { id, category } = args;
+
+                await Category.updateOne({
+                    _id: id,
+                    deleted: false
+                }, category);
+
+                const record = await Category.findOne({
+                    _id: id
+                });
 
                 return record;
             }
